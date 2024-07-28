@@ -1,54 +1,39 @@
 const Joi = require("joi");
 
 const createDataSchema = Joi.object({
-  humidity: Joi.number().required().min(0).max(100).messages({
-    "number.base": "El campo humedad debe ser un número",
-    "number.min": "El campo humedad debe ser al menos 0",
-    "number.max": "El campo humedad no debe exceder 100",
-    "any.required": "El campo humedad es requerido",
+  humidity: Joi.string().required().messages({
+    "*": "El campo humedad es requerido y debe ser una cadena de caracteres",
   }),
-  temperature: Joi.number().required().min(-50).max(150).messages({
-    "number.base": "El campo temperatura debe ser un número",
-    "number.min": "El campo temperatura debe ser al menos -50",
-    "number.max": "El campo temperatura no debe exceder 150",
-    "any.required": "El campo temperatura es requerido",
+  temperature: Joi.string().required().messages({
+    "*": "El campo temperatura es requerido y debe ser una cadena de caracteres",
   }),
-  timestamp: Joi.date().optional().messages({
-    "date.base": "El campo timestamp debe ser una fecha válida",
+  timestamp: Joi.date().required().messages({
+    "*": "El campo timestamp es requerido y debe ser una fecha válida",
   }),
-});
-
-const exportDataSchema = Joi.object({
-  startDate: Joi.date().iso().required().messages({
-    "date.base": "El campo startDate debe ser una fecha válida en formato ISO 8601",
-    "any.required": "El campo startDate es requerido",
-  }),
-  endDate: Joi.date().iso().required().messages({
-    "date.base": "El campo endDate debe ser una fecha válida en formato ISO 8601",
-    "any.required": "El campo endDate es requerido",
-  })
 });
 
 const editDataSchema = Joi.object({
-  id: Joi.string().optional().custom((value, helpers) => {
-    if (!isValidObjectId(value)) {
-      return helpers.message("Id no válido");
-    }
-    return value;
+  humidity: Joi.string().optional().messages({
+    "*": "El campo humedad debe ser una cadena de caracteres",
   }),
-  humidity: Joi.number().optional().min(0).max(100).messages({
-    "number.base": "El campo humedad debe ser un número",
-    "number.min": "El campo humedad debe ser al menos 0",
-    "number.max": "El campo humedad no debe exceder 100",
-  }),
-  temperature: Joi.number().optional().min(-50).max(150).messages({
-    "number.base": "El campo temperatura debe ser un número",
-    "number.min": "El campo temperatura debe ser al menos -50",
-    "number.max": "El campo temperatura no debe exceder 150",
+  temperature: Joi.string().optional().messages({
+    "*": "El campo temperatura debe ser una cadena de caracteres",
   }),
   timestamp: Joi.date().optional().messages({
-    "date.base": "El campo timestamp debe ser una fecha válida",
+    "*": "El campo timestamp debe ser una fecha válida",
+  }),
+});
+const exportDataSchema = Joi.object({
+  startDate: Joi.date().iso().required().messages({
+    "date.base": "El campo startDate debe ser una fecha válida",
+    "date.format": "El campo startDate debe estar en formato ISO",
+    "any.required": "El campo startDate es obligatorio",
+  }),
+  endDate: Joi.date().iso().required().messages({
+    "date.base": "El campo endDate debe ser una fecha válida",
+    "date.format": "El campo endDate debe estar en formato ISO",
+    "any.required": "El campo endDate es obligatorio",
   }),
 });
 
-module.exports = { createDataSchema, editDataSchema, exportDataSchema };
+module.exports = { createDataSchema, editDataSchema, exportDataSchema};

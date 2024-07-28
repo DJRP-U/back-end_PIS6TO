@@ -21,7 +21,7 @@ const connectDB = async () => {
 
     console.info(`MongoDB Connected: ${connection.connection.host}`);
   } catch (err) {
-    console.error("No ha sido posible realizar una conexión con la BBDD");
+    console.error("No ha sido posible realizar una conexión con la BDD");
     console.error(` Error: ${err.message} `);
 
     throw err;
